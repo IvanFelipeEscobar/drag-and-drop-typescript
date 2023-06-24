@@ -3,6 +3,9 @@ class ProjectInput {
   hostEl: HTMLDivElement;
   element: HTMLFormElement;
   titleEl: HTMLInputElement;
+  descEl: HTMLInputElement;
+  peopleEl: HTMLInputElement;
+
   constructor() {
     this.templateEl = document.getElementById(
       `project-input`
@@ -11,10 +14,23 @@ class ProjectInput {
     const importHtmlNode = document.importNode(this.templateEl.content, true);
     this.element = importHtmlNode.firstElementChild as HTMLFormElement;
     this.element.id = `user-input`;
+    this.titleEl = this.element.querySelector(`#title`) as HTMLInputElement;
+    this.descEl = this.element.querySelector(`#description`) as HTMLInputElement;
+    this.peopleEl = this.element.querySelector(`#people`) as HTMLInputElement;
     this.addEl();
   }
-  private addEl(){
-    this.hostEl.insertAdjacentElement(`afterbegin`, this.element)
+
+  private submitHandler(e: Event){
+
+  }
+
+  private configure() {
+    this.element.addEventListener(`submit`, this.submitHandler);
+  }
+
+  private addEl() {
+    this.hostEl.insertAdjacentElement(`afterbegin`, this.element);
   }
 }
-const newProject = new ProjectInput()
+
+const newProject = new ProjectInput();
