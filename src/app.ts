@@ -17,15 +17,18 @@ class ProjectInput {
     this.titleEl = this.element.querySelector(`#title`) as HTMLInputElement;
     this.descEl = this.element.querySelector(`#description`) as HTMLInputElement;
     this.peopleEl = this.element.querySelector(`#people`) as HTMLInputElement;
+    
+    this.configure();
     this.addEl();
   }
 
   private submitHandler(e: Event){
-
+    e.preventDefault();
+    console.log(this.titleEl.value)
   }
 
   private configure() {
-    this.element.addEventListener(`submit`, this.submitHandler);
+    this.element.addEventListener(`submit`, this.submitHandler.bind(this));
   }
 
   private addEl() {
