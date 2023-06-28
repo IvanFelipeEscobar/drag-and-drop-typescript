@@ -1,3 +1,13 @@
+interface Draggable {
+  dragStartHander(e: DragEvent): void;
+  dragEndHandler(e: DragEvent): void;
+}
+
+interface DragTarget {
+    dragOverHandler(e: DragEvent):void
+    dropHandler(e: DragEvent):void
+    dragLeaveHandler(e: DragEvent):void
+}
 // Project Type
 enum ProjectStatus {
   Active,
@@ -14,24 +24,22 @@ class Project {
   ) {}
 }
 
-
 //Project State Class
 type Listener<T> = (items: T[]) => void;
 
 class State<T> {
-
-    protected listeners: Listener<T>[] = [];
-    addListener(listenerFn: Listener<T>) {
-        this.listeners.push(listenerFn);
-      }
+  protected listeners: Listener<T>[] = [];
+  addListener(listenerFn: Listener<T>) {
+    this.listeners.push(listenerFn);
+  }
 }
 
-class ProjectState extends State<Project>{
+class ProjectState extends State<Project> {
   private projects: Project[] = [];
   private static instance: ProjectState;
 
   private constructor() {
-    super()
+    super();
   }
   static getInstance() {
     if (this.instance) {
@@ -41,8 +49,6 @@ class ProjectState extends State<Project>{
       return this.instance;
     }
   }
-
- 
 
   addProject(title: string, description: string, amtPeople: number) {
     const newProject = new Project(
@@ -147,30 +153,36 @@ abstract class ModularComponent<T extends HTMLElement, U extends HTMLElement> {
   abstract configure(): void;
   abstract renderLayout(): void;
 }
-class ProjectItems extends ModularComponent<HTMLUListElement, HTMLLIElement>{
-    private project: Project
-    get persons() {
-        return this.project.people === 1
-        ? `1 person`
-        : `${this.project.people} persons`
-    }
-constructor(hostId:string, project: Project){
-
-    super(`single-post`, hostId, false, project.id)
-    this.project = project
-    this.configure()
-    this.renderLayout()
+class ProjectItems extends ModularComponent<HTMLUListElement, HTMLLIElement> implements Draggable{
+  private project: Project;
+  get persons() {
+    return this.project.people === 1
+      ? `1 person`
+      : `${this.project.people} persons`;
+  }
+  constructor(hostId: string, project: Project) {
+    super(`single-post`, hostId, false, project.id);
+    this.project = project;
+    this.configure();
+    this.renderLayout();
+  }
+  @binder
+  dragStartHander(e: DragEvent) {
+      
+  }
+  dragEndHandler(_: DragEvent){
+      
+  }
+  configure() {
+    this.element.addEventListener(`dragstart`, this.dragStartHander)
+  }
+  renderLayout() {
+    this.element.querySelector("h2")!.textContent = this.project.title;
+    this.element.querySelector("h3")!.textContent = this.persons + ` assigned`;
+    this.element.querySelector("p")!.textContent = this.project.description;
+  }
 }
-configure(){
-    
-}
-renderLayout() {
-    this.element.querySelector('h2')!.textContent = this.project.title
-    this.element.querySelector('h3')!.textContent = this.persons + ` assigned`
-    this.element.querySelector('p')!.textContent = this.project.description
-}
-}
-class ProjectList extends ModularComponent<HTMLDivElement, HTMLElement> {
+class ProjectList extends ModularComponent<HTMLDivElement, HTMLElement> implements DragTarget {
   assignedProjects: Project[];
 
   constructor(private type: `active` | `finished`) {
@@ -181,7 +193,23 @@ class ProjectList extends ModularComponent<HTMLDivElement, HTMLElement> {
     this.configure();
     this.renderLayout();
   }
-  configure(){
+  @binder
+  dragOverHandler(e: DragEvent) {
+      const list = this.element.querySelector(`ul`)!;
+      list.classList.add(`droppable`)
+  }
+  dropHandler(_: DragEvent){
+      
+  }
+  @binder
+  dragLeaveHandler(_: DragEvent) {
+    const list = this.element.querySelector(`ul`)!;
+    list.classList.remove(`droppable`)
+  }
+  configure() {
+    this.element.addEventListener('dragover', this.dragOverHandler);
+    this.element.addEventListener('dragleave', this.dragLeaveHandler)
+    this.element.addEventListener('drop', this.dropHandler)
     projectState.addListener((projects: Project[]) => {
       const relevantProject = projects.filter((prj) => {
         if (this.type === `active`) {
@@ -207,7 +235,7 @@ class ProjectList extends ModularComponent<HTMLDivElement, HTMLElement> {
     )! as HTMLUListElement;
     listElement.innerHTML = ``;
     this.assignedProjects.forEach((projectItem) => {
-      new ProjectItems(this.element.querySelector(`ul`)!.id , projectItem)
+      new ProjectItems(this.element.querySelector(`ul`)!.id, projectItem);
     });
   }
 }
