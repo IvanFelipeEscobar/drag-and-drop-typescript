@@ -14,6 +14,8 @@ class Project {
   ) {}
 }
 
+
+//Project State Class
 type Listener<T> = (items: T[]) => void;
 
 class State<T> {
@@ -24,7 +26,6 @@ class State<T> {
       }
 }
 
-//Project State Class
 class ProjectState extends State<Project>{
   private projects: Project[] = [];
   private static instance: ProjectState;
@@ -51,12 +52,6 @@ class ProjectState extends State<Project>{
       amtPeople,
       ProjectStatus.Active
     );
-    // {
-    //   id: Math.random().toString(),
-    //   title: title,
-    //   description: description,
-    //   amtPeople: amtPeople,
-    // };
     this.projects.push(newProject);
     this.listeners.forEach((lFn) => lFn(this.projects.slice()));
   }
@@ -152,7 +147,29 @@ abstract class ModularComponent<T extends HTMLElement, U extends HTMLElement> {
   abstract configure(): void;
   abstract renderLayout(): void;
 }
+class ProjectItems extends ModularComponent<HTMLUListElement, HTMLLIElement>{
+    private project: Project
+    get persons() {
+        return this.project.people === 1
+        ? `1 person`
+        : `${this.project.people} persons`
+    }
+constructor(hostId:string, project: Project){
 
+    super(`single-post`, hostId, false, project.id)
+    this.project = project
+    this.configure()
+    this.renderLayout()
+}
+configure(){
+    
+}
+renderLayout() {
+    this.element.querySelector('h2')!.textContent = this.project.title
+    this.element.querySelector('h3')!.textContent = this.persons + ` assigned`
+    this.element.querySelector('p')!.textContent = this.project.description
+}
+}
 class ProjectList extends ModularComponent<HTMLDivElement, HTMLElement> {
   assignedProjects: Project[];
 
@@ -164,7 +181,7 @@ class ProjectList extends ModularComponent<HTMLDivElement, HTMLElement> {
     this.configure();
     this.renderLayout();
   }
-  configure(): void {
+  configure(){
     projectState.addListener((projects: Project[]) => {
       const relevantProject = projects.filter((prj) => {
         if (this.type === `active`) {
@@ -190,9 +207,7 @@ class ProjectList extends ModularComponent<HTMLDivElement, HTMLElement> {
     )! as HTMLUListElement;
     listElement.innerHTML = ``;
     this.assignedProjects.forEach((projectItem) => {
-      const listItem = document.createElement(`li`);
-      listItem.textContent = projectItem.title;
-      listElement.appendChild(listItem);
+      new ProjectItems(this.element.querySelector(`ul`)!.id , projectItem)
     });
   }
 }
@@ -218,7 +233,7 @@ class ProjectInput extends ModularComponent<HTMLDivElement, HTMLFormElement> {
     this.element.addEventListener(`submit`, this.submitHandler);
   }
 
-  renderLayout(): void {}
+  renderLayout() {}
 
   private userInput(): [string, string, number] | void {
     const enterTitle = this.titleEl.value;
