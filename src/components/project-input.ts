@@ -1,3 +1,7 @@
+/// <reference path="./base-components.ts"/>
+/// <reference path="../decorators/binder.ts"/>
+/// <reference path="../util/validation.ts"/>
+/// <reference path="../state/project-state.ts"/>
 namespace App {
 
   export class ProjectInput extends ModularComponent<HTMLDivElement, HTMLFormElement> {
