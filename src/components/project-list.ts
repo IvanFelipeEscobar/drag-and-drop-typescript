@@ -1,5 +1,9 @@
-namespace App {
-
+import { ModularComponent } from "./base-components";
+import { binder } from "../decorators/binder";
+import { DragTarget } from "../models/drag-drop";
+import { ProjectItems} from "./project-item";
+import { ProjectStatus, Project } from "../models/project";
+import { projectState } from "../state/project-state";
   export class ProjectList
   extends ModularComponent<HTMLDivElement, HTMLElement>
   implements DragTarget
@@ -72,4 +76,3 @@ namespace App {
   }
 }
 
-}

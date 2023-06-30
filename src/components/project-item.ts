@@ -1,5 +1,7 @@
-namespace App {
-
+import { ModularComponent } from "./base-components";
+import { Draggable } from "../models/drag-drop";
+import { Project } from "../models/project";
+import { binder } from "../decorators/binder";
  export  class ProjectItems
  extends ModularComponent<HTMLUListElement, HTMLLIElement>
  implements Draggable
@@ -31,5 +33,4 @@ namespace App {
      this.persons + ` assigned`;
    this.element.querySelector("p")!.textContent = this.project.description;
  }
-}
 }

@@ -1,5 +1,7 @@
-namespace App {
-
+import { ModularComponent } from "./base-components";
+import {ValidInput, validate} from "../util/validation";
+import { projectState } from "../state/project-state";
+import { binder } from "../decorators/binder";
   export class ProjectInput extends ModularComponent<HTMLDivElement, HTMLFormElement> {
     titleEl: HTMLInputElement;
     descEl: HTMLInputElement;
@@ -79,4 +81,3 @@ namespace App {
       }
     }
   }
-}

@@ -1,4 +1,3 @@
-namespace App {
 
   export interface ValidInput {
     value: string | number;
@@ -43,4 +42,3 @@ namespace App {
     return isValid;
   };
 
-}

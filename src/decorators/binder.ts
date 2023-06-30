@@ -1,4 +1,4 @@
-namespace App {
+
    export const binder = (_: any, _2: string, descriptor: PropertyDescriptor) => {
         const originalMethod = descriptor.value;
         const adjDesc: PropertyDescriptor = {
@@ -11,4 +11,3 @@ namespace App {
     
         return adjDesc;
       };
-}
