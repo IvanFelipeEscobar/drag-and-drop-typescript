@@ -4,3 +4,4 @@ import { ProjectList } from "./components/project-list";
   new ProjectList(`active`);
   new ProjectList(`finished`);
 
+console.log(`hi`)
