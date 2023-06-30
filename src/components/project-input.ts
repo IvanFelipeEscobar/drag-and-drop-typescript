@@ -1,9 +1,7 @@
-/// <reference path="./base-components.ts"/>
-/// <reference path="../decorators/binder.ts"/>
-/// <reference path="../util/validation.ts"/>
-/// <reference path="../state/project-state.ts"/>
-namespace App {
-
+import { ModularComponent } from "./base-components.js";
+import {ValidInput, validate} from "../util/validation.js";
+import { projectState } from "../state/project-state.js";
+import { binder } from "../decorators/binder.js";
   export class ProjectInput extends ModularComponent<HTMLDivElement, HTMLFormElement> {
     titleEl: HTMLInputElement;
     descEl: HTMLInputElement;
@@ -83,4 +81,3 @@ namespace App {
       }
     }
   }
-}

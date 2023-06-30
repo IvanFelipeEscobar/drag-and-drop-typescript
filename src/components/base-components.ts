@@ -1,6 +1,4 @@
-namespace App {
-
-  export abstract class ModularComponent<
+export abstract class ModularComponent<
   T extends HTMLElement,
   U extends HTMLElement
 > {
@@ -34,5 +32,4 @@ namespace App {
   }
   abstract configure(): void;
   abstract renderLayout(): void;
-}
 }

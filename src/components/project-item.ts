@@ -1,10 +1,7 @@
-/// <reference path="./base-components.ts"/>
-/// <reference path="../decorators/binder.ts"/>
-/// <reference path= "../models/drag-drop.ts"/>
-/// <reference path="../models/project.ts"/>
-
-namespace App {
-
+import { ModularComponent } from "./base-components.js";
+import { Draggable } from "../models/drag-drop.js";
+import { Project } from "../models/project.js";
+import { binder } from "../decorators/binder.js";
  export  class ProjectItems
  extends ModularComponent<HTMLUListElement, HTMLLIElement>
  implements Draggable
@@ -36,5 +33,4 @@ namespace App {
      this.persons + ` assigned`;
    this.element.querySelector("p")!.textContent = this.project.description;
  }
-}
 }

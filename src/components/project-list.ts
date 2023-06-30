@@ -1,10 +1,9 @@
-/// <reference path="./base-components.ts"/>
-/// <reference path="../decorators/binder.ts"/>
-/// <reference path="../state/project-state.ts"/>
-/// <reference path= "../models/drag-drop.ts"/>
-/// <reference path="../models/project.ts"/>
-namespace App {
-
+import { ModularComponent } from "./base-components.js";
+import { binder } from "../decorators/binder.js";
+import { DragTarget } from "../models/drag-drop.js";
+import { ProjectItems} from "./project-item.js";
+import { ProjectStatus, Project } from "../models/project.js";
+import { projectState } from "../state/project-state.js";
   export class ProjectList
   extends ModularComponent<HTMLDivElement, HTMLElement>
   implements DragTarget
@@ -77,4 +76,3 @@ namespace App {
   }
 }
 
-}
