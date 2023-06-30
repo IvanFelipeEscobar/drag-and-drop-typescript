@@ -1,7 +1,7 @@
-import { ModularComponent } from "./base-components.js";
-import { Draggable } from "../models/drag-drop.js";
-import { Project } from "../models/project.js";
-import { binder } from "../decorators/binder.js";
+import { ModularComponent } from "./base-components";
+import { Draggable } from "../models/drag-drop";
+import { Project } from "../models/project";
+import { binder } from "../decorators/binder";
  export  class ProjectItems
  extends ModularComponent<HTMLUListElement, HTMLLIElement>
  implements Draggable
